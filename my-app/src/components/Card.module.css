@@ -1,0 +1,17 @@
+.card{
+    flex: 1 1 300px;
+    position:relative;
+    background-color: hsl(var(--bkg));
+    box-shadow: 2px 2px 40px hsl(var(--muted)/.9);
+    padding: var(--space-lg);
+    border-radius: var(--round-lg);
+    border-top: .1em solid white;
+    border-left: .1em solid white;
+    max-width: var(--content);
+    width: 600px;         /* or your preferred width */
+    min-height: 340px;    /* adjust based on your largest content */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}

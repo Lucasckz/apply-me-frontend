@@ -1,7 +1,6 @@
-import React from 'react'
-import { link } from 'fs'
 import { ButtonInterface } from '../types'
 import styles from './Button.module.css'
+
 const Button = ({text, filled, type,href,icon}:ButtonInterface) => 
     { const filledclass = filled ? styles.filled : ""
   return (
