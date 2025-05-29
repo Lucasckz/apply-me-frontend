@@ -9,3 +9,8 @@
   align-items: flex-start;
   gap: var(--space-lg);
 }
+
+.App a:not([class*="btn"]),
+.App a:not([class*="btn"]):visited {
+  color: #0074d9;
+}

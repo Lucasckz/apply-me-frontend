@@ -9,8 +9,8 @@ icon?: JSX.Element;}
 
 export interface cardInterface {
   title: string;
-  description: string; // description is now always a list of strings
+  description: React.ReactNode;
    description2: string;
-  downloadLink: string;
-  btn: ButtonInterface;
+  // downloadLink: string;
+  // btn: ButtonInterface;
 }

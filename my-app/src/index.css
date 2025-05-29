@@ -28,6 +28,8 @@
 --round-md: 10px;
 --round-lg: 15px;
 --round-full: 100vmax;
+
+--content: 800px;
   }
 body{
   display: grid;

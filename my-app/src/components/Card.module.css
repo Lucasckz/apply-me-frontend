@@ -8,10 +8,36 @@
     border-top: .1em solid white;
     border-left: .1em solid white;
     max-width: var(--content);
-    width: 600px;         /* or your preferred width */
-    min-height: 340px;    /* adjust based on your largest content */
+    width: 100%;         /* or your preferred width */
+    min-height: 600px;    /* adjust based on your largest content */
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+      align-items: stretch;
+
+}
+
+.title {
+  font-size: 40px; /* Change this value as needed */
+  font-weight: bold;
+  /* You can add more styles if you want */
+}
+
+.description {
+margin-top: 20x;
+}
+.accentImage {
+  display: block;
+  max-width: 300px; /* 3x bigger */
+  width: 100%;
+  height: auto;
+  margin-left: 140px; /* move to the right */
+  margin-bottom: 35px;
+}
+
+@media (max-width: 900px) {
+  .accentImage {
+    display: none;
+  }
 }

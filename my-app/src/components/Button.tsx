@@ -6,10 +6,10 @@ const Button = ({text, filled, type,href,icon}:ButtonInterface) =>
   return (
     
    <a href={href} className={`${styles.btn} ${styles[type.toLowerCase()]} ${filledclass}`}> 
-    {icon}
+   
     
    <span>{text}</span>
-    
+     {icon}
     
     
     </a>  )

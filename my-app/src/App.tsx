@@ -13,16 +13,27 @@ function App() {
       <section className="card-container">
         <Card
           title="LinkedIn Profile to Resume Generator"
-         description="Step 1: Download your LinkedIn profile as a PDF."
+         description={
+           <>
+             Step 1: Download your LinkedIn profile as a PDF. Need help?{' '}
+             <a
+  href="https://www.linkedin.com/help/linkedin/answer/a541960"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  Learn how to download your LinkedIn profile
+</a>
+           </>
+         }
          description2="Step 2: Drag and drop your downloaded PDF file below."
   
-          downloadLink="#"
-          btn={{
-            text: "Download",
-            filled: true,
-            type: "primary",
-            href: "#",
-          }}
+          // downloadLink="#"
+          // btn={{
+          //   text: "Download",
+          //   filled: true,
+          //   type: "primary",
+          //   href: "#",
+          // }}
         >
           {/* You can add children here if needed, such as <Dropzone /> or other elements */}
         </Card>

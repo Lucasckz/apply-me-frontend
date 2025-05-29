@@ -1,29 +1,39 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import styles from './Drop.module.css';
 import Button from './Button';
-import { ServerStackIcon } from '@heroicons/react/24/outline';
+import { ArrowDownTrayIcon } from '@heroicons/react/24/outline';
 
-export function Basic(props) {
-  const [conversionState, setConversionState] = useState<'idle' | 'converting' | 'done'>('idle');
+type DropzoneProps = {
+  onConversionDone?: () => void;
+};
+
+enum ConversionState {
+  Idle = 'idle',
+  Converting = 'converting',
+  Done = 'done',
+}
+
+export function Basic({ onConversionDone }: DropzoneProps) {
+  const [conversionState, setConversionState] = useState<ConversionState>(ConversionState.Idle);
   const [progress, setProgress] = useState(0);
 
-  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
-    onDrop: () => {
-      setConversionState('converting');
-      setProgress(0);
-    }
-  });
+  const onDrop = useCallback(() => {
+    setConversionState(ConversionState.Converting);
+    setProgress(0);
+  }, []);
 
-  // Simulate conversion progress
+  const { getRootProps, getInputProps } = useDropzone({ onDrop });
+
   useEffect(() => {
     let timer: ReturnType<typeof setInterval>;
-    if (conversionState === 'converting') {
+    if (conversionState === ConversionState.Converting) {
       timer = setInterval(() => {
         setProgress((prev) => {
           if (prev >= 100) {
             clearInterval(timer);
-            setConversionState('done');
+            setConversionState(ConversionState.Done);
+            if (onConversionDone) onConversionDone();
             return 100;
           }
           return prev + 10;
@@ -31,18 +41,18 @@ export function Basic(props) {
       }, 300);
     }
     return () => clearInterval(timer);
-  }, [conversionState]);
+  }, [conversionState, onConversionDone]);
 
   return (
     <section className={styles.container}>
-      {conversionState === 'idle' && (
+      {conversionState === ConversionState.Idle && (
         <div {...getRootProps({ className: styles.dropzone })}>
           <input {...getInputProps()} />
           <p>Drop files here or click to select files</p>
           <div className={styles.reservedSpace} />
         </div>
       )}
-      {conversionState === 'converting' && (
+      {conversionState === ConversionState.Converting && (
         <div className={styles.stateContainer}>
           <div className={styles.progressText}>
             Converting... {progress}%
@@ -56,7 +66,7 @@ export function Basic(props) {
           <div className={styles.reservedSpace} />
         </div>
       )}
-      {conversionState === 'done' && (
+      {conversionState === ConversionState.Done && (
         <div className={styles.stateContainer}>
           <div className={styles.doneMessage}>
             Conversion complete!
@@ -67,7 +77,7 @@ export function Basic(props) {
               filled={true}
               type="secondary"
               href="#"
-              icon={<ServerStackIcon style={{ width: 24, height: 24 }} />}
+              icon={<ArrowDownTrayIcon style={{ width: 24, height: 24 }} />}
             />
           </div>
           <div className={styles.reservedSpace} />
