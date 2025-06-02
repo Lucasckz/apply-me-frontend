@@ -21,7 +21,6 @@
   flex-direction: column;
   align-items: center;
   margin-top: 80px; /* Adjust this value as needed */
-
 }
 
 .progressText {
@@ -65,4 +64,16 @@
 
 .reservedSpace {
   height: 24px; /* Adjust as needed for consistent card height */
+}
+
+.stepThree {
+  text-align: left;
+  width: 100%;
+}
+
+.description {
+  padding: 1em;
+  margin-top: 1em;
+  width: 100%;
+  min-height: 10em;
 }

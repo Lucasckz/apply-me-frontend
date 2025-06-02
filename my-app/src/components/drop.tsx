@@ -71,6 +71,8 @@ export function Basic({ onConversionDone }: DropzoneProps) {
           <div className={styles.doneMessage}>
             Conversion complete!
           </div>
+          <small className={styles.stepThree}>Step 3: copy and past a job description for the resume to be based on.</small>
+          <textarea maxLength={4000} className={styles.description} name="description" />
           <div className={styles.buttonContainer}>
             <Button
               text="Download Resume"
