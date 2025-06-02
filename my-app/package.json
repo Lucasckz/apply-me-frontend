@@ -11,8 +11,10 @@
     "lint:fix": "eslint ./src --ext ts,tsx --fix"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "react-dropzone": "^14.3.8"
   },
   "devDependencies": {
     "@eslint/js": "^9.27.0",
