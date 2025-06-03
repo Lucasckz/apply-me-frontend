@@ -6,7 +6,8 @@ export interface ButtonInterface {
 type:string;
 href: string;
 icon?: JSX.Element;
- download?: boolean;}
+ download?: boolean;
+  target?: string;}
 
 export interface cardInterface {
   title: string;
