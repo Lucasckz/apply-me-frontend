@@ -15,7 +15,7 @@ function App() {
           title="LinkedIn Profile to Resume Generator"
          description={
            <>
-             Step 1: Download your LinkedIn profile as a PDF. Need help?{' '}
+             Step 2: Download your LinkedIn profile as a PDF. Need help?{' '}
              <a
   href="https://www.linkedin.com/help/linkedin/answer/a541960"
   target="_blank"
@@ -25,7 +25,7 @@ function App() {
 </a>
            </>
          }
-         description2="Step 2: Drag and drop your downloaded PDF file below."
+         description2="Step 3: Drag and drop your downloaded PDF file below."
   
           // downloadLink="#"
           // btn={{

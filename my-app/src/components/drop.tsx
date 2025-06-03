@@ -6,6 +6,7 @@ import { ArrowDownTrayIcon } from '@heroicons/react/24/outline';
 
 type DropzoneProps = {
   onConversionDone?: () => void;
+  jobDescription?: string;
 };
 
 enum ConversionState {
@@ -14,16 +15,61 @@ enum ConversionState {
   Done = 'done',
 }
 
-export function Basic({ onConversionDone }: DropzoneProps) {
+export function Basic({ onConversionDone, jobDescription }: DropzoneProps) {
   const [conversionState, setConversionState] = useState<ConversionState>(ConversionState.Idle);
   const [progress, setProgress] = useState(0);
+  const [resumeUrl, setResumeUrl] = useState<string | null>(null);
 
-  const onDrop = useCallback(() => {
+  const onDrop = useCallback(async (acceptedFiles: File[]) => {
+    if (!acceptedFiles.length) return;
     setConversionState(ConversionState.Converting);
     setProgress(0);
-  }, []);
 
-  const { getRootProps, getInputProps } = useDropzone({ onDrop });
+    const formData = new FormData();
+    formData.append('file', acceptedFiles[0]);
+    if (jobDescription) {
+      formData.append('job', jobDescription);
+    }
+
+    try {
+      const response = await fetch('http://localhost:4000/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      console.log('Backend response status:', response.status);
+      console.log('Backend response content-type:', response.headers.get('content-type'));
+
+      if (!response.ok) throw new Error('Upload failed');
+
+      const blob = await response.blob();
+      console.log('Blob size:', blob.size);
+
+      // Check if the blob is actually a PDF
+      if (blob.type !== 'application/pdf') {
+        const text = await blob.text();
+        console.error('Expected PDF but got:', text);
+        alert('Backend did not return a PDF. Check backend logs.');
+        setConversionState(ConversionState.Idle);
+        return;
+      }
+
+      const url = window.URL.createObjectURL(blob);
+      setResumeUrl(url);
+
+      setConversionState(ConversionState.Done);
+      if (onConversionDone) onConversionDone();
+    } catch (e) {
+      console.error('Error during upload:', e);
+      if (e instanceof Response) {
+        e.text().then(text => console.error('Backend error response:', text));
+      }
+      alert('Failed to upload and convert PDF.');
+      setConversionState(ConversionState.Idle);
+    }
+  }, [onConversionDone, jobDescription]);
+
+  const { getRootProps, getInputProps } = useDropzone({ onDrop, accept: { 'application/pdf': [] } });
 
   useEffect(() => {
     let timer: ReturnType<typeof setInterval>;
@@ -71,16 +117,24 @@ export function Basic({ onConversionDone }: DropzoneProps) {
           <div className={styles.doneMessage}>
             Conversion complete!
           </div>
-          <small className={styles.stepThree}>Step 3: copy and past a job description for the resume to be based on.</small>
-          <textarea maxLength={4000} className={styles.description} name="description" />
+
           <div className={styles.buttonContainer}>
-            <Button
-              text="Download Resume"
-              filled={true}
-              type="secondary"
-              href="#"
-              icon={<ArrowDownTrayIcon style={{ width: 24, height: 24 }} />}
-            />
+            {resumeUrl ? (
+              <>
+                {console.log("PDF ready for download:", resumeUrl)}
+                <a
+                  href={resumeUrl}
+                  download="resume.pdf"
+                  className={`${styles.btn} ${styles.secondary}`}
+                  style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+                >
+                  <span>Download Resume</span>
+                  <ArrowDownTrayIcon style={{ width: 24, height: 24 }} />
+                </a>
+              </>
+            ) : (
+              <span>Preparing your download...</span>
+            )}
           </div>
           <div className={styles.reservedSpace} />
         </div>
